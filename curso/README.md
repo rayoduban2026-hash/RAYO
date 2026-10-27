@@ -1,6 +1,6 @@
 # Curso: de cero a tu app móvil
 
-Un curso práctico para aprender a crear una app nativa de Android. Cada módulo tiene una lección con ejercicios y un proyecto que pruebas en tu tablet.
+Un curso práctico para aprender a crear una app nativa de Android. Cada módulo tiene una lección con ejercicios y un proyecto que instalas en tu tablet como APK.
 
 ## Ruta de aprendizaje
 
@@ -14,19 +14,27 @@ Un curso práctico para aprender a crear una app nativa de Android. Cada módulo
 | 6 | Datos compartidos | Varios dispositivos ven la misma información | Backend (Supabase o Firebase), usuarios | Pendiente |
 | 7 | Publicar | APK para instalar y publicar en Google Play | EAS Build, Play Console | Pendiente |
 
+La app del reproductor local (la que quieres construir) tiene su especificación en [../apps/reproductor-local/ESPECIFICACION.md](../apps/reproductor-local/ESPECIFICACION.md).
+
 ## Requisitos
 
-- **Computadora** con Node.js LTS instalado.
-- **Tablet** Android con la app **Expo Go** (gratis, en Google Play).
-- **Cuenta de Expo** (gratis), solo hace falta en el módulo 7.
+- Un celular o tablet Android.
+- Una cuenta de GitHub con acceso al repositorio RAYO.
+- Una cuenta gratuita de Expo (expo.dev).
 
-## Cómo probar en la tablet
+No necesitas computadora: el APK se compila en la nube de GitHub y Expo, y lo descargas en tu tablet.
 
-Expo Go ejecuta tu app sin compilar un APK. El servidor de desarrollo corre en tu computadora, así que la computadora y la tablet deben estar en la misma red WiFi. Esta sesión en la nube no puede conectarse a tu tablet, por eso el servidor debe correr en tu equipo.
+## Cómo probar cada versión
+
+1. Subes un cambio al repositorio.
+2. GitHub compila el APK (pestaña **Actions**, flujo "Compilar APK").
+3. Al terminar, descargas el APK desde el enlace que aparece en el registro, lo abres en la tablet e instalas.
+
+Cada prueba tarda unos minutos. Es más lento que una vista previa en vivo, pero no requiere computadora.
 
 ## Cómo trabajar cada módulo
 
 1. Lee la lección.
 2. Haz los ejercicios en orden.
-3. Prueba en la tablet y comparte lo que funcionó y lo que no.
+3. Instala el APK en tu tablet y cuéntame qué funcionó y qué no.
 4. Pasamos al siguiente módulo.

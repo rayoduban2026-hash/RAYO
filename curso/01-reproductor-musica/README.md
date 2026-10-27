@@ -10,16 +10,18 @@ Construirás una app con un botón de reproducir/pausa y una lista para elegir c
 - **Eventos:** `onPress` ejecuta una función cuando tocas algo.
 - **Estilos:** `StyleSheet.create` separa el diseño del código, como CSS.
 
-## Antes de empezar
+## Antes de empezar (sin computadora)
 
-1. Instala **Node.js LTS** en tu computadora.
-2. Instala **Expo Go** desde Google Play en tu tablet.
-3. Abre una terminal en la carpeta `proyecto/` y ejecuta:
-   ```
-   npm install
-   npx expo start
-   ```
-4. En la tablet, abre Expo Go y escanea el código QR que aparece en la terminal.
+GitHub compila el APK por ti. Solo necesitas configurar una vez tu cuenta:
+
+1. Crea una cuenta gratuita en **expo.dev** desde el navegador de tu celular.
+2. En tu cuenta de Expo, crea un **token de acceso** (sección *Access tokens*). Cópialo.
+3. En GitHub, abre el repositorio **RAYO** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**.
+   - Nombre: `EXPO_TOKEN`
+   - Valor: el token que copiaste.
+   - **No pegues el token en el chat.**
+4. Avísame cuando lo hayas hecho. Entonces subo los cambios y GitHub compila el APK solo. Lo puedes seguir en la pestaña **Actions**, en el flujo "Compilar APK".
+5. Cuando termine, el enlace de descarga aparece en el registro del job y en expo.dev. Ábrelo en la tablet, descarga el APK e instálalo. Si Android lo bloquea, permite **instalar apps desconocidas** para tu navegador o tu gestor de archivos.
 
 ## Cómo leer `proyecto/App.tsx`
 
@@ -47,11 +49,11 @@ Hazlos en orden. Cada uno suma algo nuevo.
 4. **Control de volumen.** Agrega botones "+" y "-" que cambien `player.volume` entre `0` y `1`.
    - Pista: `Math.min(1, ...)` y `Math.max(0, ...)` mantienen el valor dentro del rango.
 
-5. **Tu propia música.** Copia un MP3 tuyo a `proyecto/assets/audio/` y agrégalo a `canciones` con `require`. Si no aparece, reinicia con `npx expo start -c`.
+5. **Tu propia música.** Copia un MP3 tuyo a `proyecto/assets/audio/` y agrégalo a `canciones` con `require`.
 
 ## Terminado cuando
 
-- La app funciona en tu tablet con Expo Go.
+- La app se instala y funciona en tu tablet.
 - Puedes explicar qué hace cada parte del código, sin mirar.
 
-Cuando termines, pega tu código o cuéntame qué falló. Lo revisamos juntos antes de pasar al módulo 2.
+Cuando termines, cuéntame qué falló o pega tu código, y lo revisamos antes del módulo 2.
