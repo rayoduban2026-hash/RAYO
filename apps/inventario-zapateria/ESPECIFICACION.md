@@ -1,6 +1,6 @@
 # Inventario de suministros para zapatería
 
-Estado: borrador v0.3. Lo marcado con **¿?** no está confirmado.
+Estado: borrador v0.4. Lo marcado con **¿?** no está confirmado.
 
 ## Objetivo
 Saber qué suministros hay, cuánto se va a gastar y cuándo y cuánto pedir,
@@ -11,33 +11,41 @@ para que la producción no se detenga por falta de material.
 - Los datos se guardan en la tablet. Se exportan a Excel como respaldo.
 
 ## Producción
-- Consumo de referencia: 300 pares por día (ejemplo del usuario; el croquis decía unos 280) ¿?
-- Días de producción: lunes a sábado ¿? (¿sábado completo?)
+- Consumo de referencia: 300 pares por día de lunes a viernes (ejemplo del usuario) ¿?
+- Sábado: la producción termina a mediodía, unos 55% de un día normal ¿? (el usuario dijo "poco más de la mitad").
 - Domingos y festivos: no hay producción ni entregas.
 
 ## Proveedor
 - Contacto para pedidos: se guarda solo en la app de la tablet, no en este repositorio (es público).
-- Entregas: lunes y jueves. Llegan por la tarde ¿? (confirmar hora).
-- Pedidos: sábado (para el lunes) y miércoles (para el jueves). El sábado el proveedor trabaja hasta mediodía ¿? (¿el pedido debe llegar antes de esa hora?).
+- Entregas: lunes y jueves, por la tarde (casi siempre).
+- Pedidos: sábado antes de mediodía (para la entrega del lunes) y miércoles (para la entrega del jueves). El proveedor trabaja hasta mediodía el sábado.
 - Viernes: no hay entregas (pico y placa).
 - Sábado y domingo: no hay entregas normales.
-- Emergencia: un transportista externo puede traer material el viernes o el sábado por la mañana. Cuesta más. Se usa solo si el colchón está en riesgo.
+- Emergencia: un transportista externo puede traer material el viernes o el sábado por la mañana. Cuesta más. Se usa si una entrega falla y el colchón se está agotando.
 
 ## Ciclo semanal
-| Día | Llega | Producción cubierta | Se pide |
+| Día | Llega | Producción que cubre | Se pide |
 |---|---|---|---|
-| Lunes | Entrega 1 | Lunes, martes y miércoles (3 días) | — |
-| Miércoles | — | — | Pedido para el jueves |
-| Jueves | Entrega 2 | Jueves, viernes y sábado (3 días) | — |
-| Sábado | — | — | Pedido para el lunes |
+| Lunes | Entrega 1 (tarde) | Lunes, martes y miércoles (900 pares) | — |
+| Miércoles | — | — | Pedido para el jueves (765 pares) |
+| Jueves | Entrega 2 (tarde) | Jueves, viernes y sábado medio día (765 pares) | — |
+| Sábado (antes de mediodía) | — | — | Pedido para el lunes (900 pares) |
 | Domingo | — | Sin trabajo | — |
 
-## Política de reserva (propuesta)
-- Cada entrega cubre 3 días de producción, contando el día de llegada.
-- **Colchón de seguridad propuesto: 1 día de producción (300 pares por cada par de referencia).** Se usa cuando una entrega se retrasa o llega tarde. ¿Colchón de 1 día o ninguno?
-- **Stock mínimo** = consumo de 1 día (el colchón), por material.
-- **Cuánto pedir** = consumo diario × días a cubrir + colchón − stock actual.
-- Con un colchón de 1 día, un retraso no detiene la producción; con el envío de emergencia se resuelve.
+Con 300 pares al día y sábado al 55%: el sábado son 165 pares. Entrega del jueves = 300 + 300 + 165 = 765.
+
+## Colchón de seguridad
+- **Colchón: 3 días de producción, adicionales a las entregas (900 pares con 300 pares/día).** ¿Confirmar que es adicional y no incluido?
+- El colchón no se usa en el día normal. Se usa solo si una entrega no llega a tiempo.
+- Cuando se usa, la siguiente entrega debe reponer lo gastado y volver a llenar el colchón.
+- Stock esperado: entre 900 pares (mínimo, solo colchón) y 1.800 pares (justo después de la entrega del lunes).
+- La mañana de la entrega (la llegada es por la tarde) la producción se cubre con el colchón.
+- Construcción: el colchón puede llenarse por etapas (1 día, 2 días, 3 días) según el presupuesto ¿?
+
+## Política de reserva
+- Cada entrega repone lo que se gastó desde la entrega anterior, más el colchón si se usó.
+- **Alarma de entrega:** si a una hora límite no llegó la entrega, la app avisa para usar el colchón y decidir si se hace envío de emergencia. Hora límite ¿?
+- **Cuánto pedir** = consumo del periodo que cubre la entrega + reposición del colchón (si se usó) − stock actual.
 
 ## Consumo por par
 Base confirmada:
@@ -92,8 +100,8 @@ Los materiales de procesos aún no mencionados se agregarán cuando el usuario l
 
 ## Pedidos de clientes (pronóstico)
 - Se envía la foto del pedido o vale de cada cliente.
-- Se extraen referencia, color, tallas y pares.
-- Con la base por par se calcula el material necesario en los próximos días.
+- Se extraen referencia, color, tallas y pares. Cada línea trae su propia curva de tallas.
+- Con la base por par y la curva de tallas se calcula el material necesario (por ejemplo, punteras nada o X según la talla).
 
 ## Órdenes de producción
 Registro de cada orden:
@@ -110,14 +118,14 @@ Registro de cada orden:
 - Exportar a Excel (.xlsx).
 
 ## Alertas
-- **Aviso de pedido:** sábado (pedido para el lunes) y miércoles (pedido para el jueves), con la lista y las cantidades.
-- **Alarma de stock bajo:** cuando un material cae bajo el colchón.
-- **Alarma de retraso:** pedido sin llegada completa en la fecha prevista.
+- **Aviso de pedido:** sábado temprano (pedido para el lunes) y miércoles temprano (pedido para el jueves), con la lista y las cantidades.
+- **Alarma de stock bajo:** cuando un material baja del colchón.
+- **Alarma de entrega no llegada:** a la hora límite, si la entrega no llegó.
 - Notificaciones con sonido, aunque el teléfono esté en silencio. Android o Samsung pueden limitarlo; se verifica en pruebas.
 - La app no hace llamadas telefónicas; solo notificaciones.
 
 ## Privacidad
-- El repositorio de GitHub es público. Datos de contacto y volúmenes de producción no se guardan aquí. ¿Pasar el repositorio a privado?
+- El repositorio de GitHub es público. Datos de contacto, nombres de clientes y volúmenes de producción no se guardan aquí. ¿Pasar el repositorio a privado?
 
 ## Fuera de alcance por ahora
 - Varios usuarios y sincronización entre dispositivos.
@@ -126,11 +134,11 @@ Registro de cada orden:
 - Envío automático de pedidos (requiere servicio de mensajes con costo).
 
 ## Decisiones pendientes
-1. Colchón: ¿1 día (300 pares) o ninguno?
-2. ¿A qué hora llegan las entregas? Si llegan por la tarde, la producción de la mañana del día de llegada no tiene material de esa entrega.
-3. ¿El pedido del sábado debe llegar antes de mediodía?
-4. ¿Se trabaja sábado completo?
+1. ¿El colchón de 3 días es adicional a las entregas (900 pares extra)?
+2. ¿Presupuesto para construir el colchón de una vez o por etapas?
+3. ¿Hora límite para considerar que una entrega no llegó?
+4. ¿Sábado al 55% de un día normal, o un porcentaje distinto?
 5. ¿Repositorio privado?
 6. ¿Precio por unidad en los pedidos y recepciones?
 7. Materiales de los demás procesos.
-8. Fotos de pedidos de clientes.
+8. Conteo inicial de los materiales.
