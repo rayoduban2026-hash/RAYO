@@ -1,7 +1,6 @@
 # Inventario de suministros para zapatería
 
-Estado: borrador v0.2. Se actualiza conforme se confirman los datos.
-Lo marcado con **¿?** no está confirmado.
+Estado: borrador v0.3. Lo marcado con **¿?** no está confirmado.
 
 ## Objetivo
 Saber qué suministros hay, cuánto se va a gastar y cuándo y cuánto pedir,
@@ -11,22 +10,34 @@ para que la producción no se detenga por falta de material.
 - Una sola persona, en la tablet Samsung Galaxy Tab S10 Lite (Android 16).
 - Los datos se guardan en la tablet. Se exportan a Excel como respaldo.
 
-## Proveedor y entregas
-- Entregas: de lunes a jueves ¿?
-- Viernes: no hay entregas (pico y placa).
-- Sábado: no hay entregas (el proveedor trabaja solo hasta mediodía).
-- Domingo y festivos: ¿?
-- Un pedido hecho un día llega al día siguiente por la tarde, cuando el día siguiente es entrega.
-  Si el pedido se hace un día sin entrega siguiente, llega en el próximo día de entrega.
-- Contacto para pedidos (WhatsApp o correo): ¿?
+## Producción
+- Consumo de referencia: 300 pares por día (ejemplo del usuario; el croquis decía unos 280) ¿?
+- Días de producción: lunes a sábado ¿? (¿sábado completo?)
+- Domingos y festivos: no hay producción ni entregas.
 
-## Política de reserva
-- **Reserva objetivo: 3 días contando hoy** (hoy, mañana y pasado mañana). Puede ajustarse con el tiempo.
-- **Ciclo de pedido:** cada pedido cubre los siguientes 2 días. Al terminar ese tiempo se hace el siguiente.
-- **Motivo:** a veces el carro no sale y no llega el material. La reserva evita que la producción se detenga.
-- **Stock mínimo** = consumo diario × días que faltan hasta la siguiente entrega + reserva ¿? (confirmar si la reserva se cuenta desde hoy o desde la llegada).
-- **Alerta:** cuando el stock proyectado baja del mínimo, se envía una notificación con qué pedir y cuánto.
-- **Cuánto pedir** = lo necesario para volver a la reserva objetivo al llegar la entrega.
+## Proveedor
+- Contacto para pedidos: se guarda solo en la app de la tablet, no en este repositorio (es público).
+- Entregas: lunes y jueves. Llegan por la tarde ¿? (confirmar hora).
+- Pedidos: sábado (para el lunes) y miércoles (para el jueves). El sábado el proveedor trabaja hasta mediodía ¿? (¿el pedido debe llegar antes de esa hora?).
+- Viernes: no hay entregas (pico y placa).
+- Sábado y domingo: no hay entregas normales.
+- Emergencia: un transportista externo puede traer material el viernes o el sábado por la mañana. Cuesta más. Se usa solo si el colchón está en riesgo.
+
+## Ciclo semanal
+| Día | Llega | Producción cubierta | Se pide |
+|---|---|---|---|
+| Lunes | Entrega 1 | Lunes, martes y miércoles (3 días) | — |
+| Miércoles | — | — | Pedido para el jueves |
+| Jueves | Entrega 2 | Jueves, viernes y sábado (3 días) | — |
+| Sábado | — | — | Pedido para el lunes |
+| Domingo | — | Sin trabajo | — |
+
+## Política de reserva (propuesta)
+- Cada entrega cubre 3 días de producción, contando el día de llegada.
+- **Colchón de seguridad propuesto: 1 día de producción (300 pares por cada par de referencia).** Se usa cuando una entrega se retrasa o llega tarde. ¿Colchón de 1 día o ninguno?
+- **Stock mínimo** = consumo de 1 día (el colchón), por material.
+- **Cuánto pedir** = consumo diario × días a cubrir + colchón − stock actual.
+- Con un colchón de 1 día, un retraso no detiene la producción; con el envío de emergencia se resuelve.
 
 ## Consumo por par
 Base confirmada:
@@ -34,7 +45,6 @@ Base confirmada:
 
 Pendiente: pegamentos, tornillos, lija, caucho y demás materiales. Se calcula con conteo antes y después de un lote:
 **consumo por par = (conteo inicial − conteo final) ÷ pares producidos del lote.**
-Así no hace falta medir cada proceso.
 
 ## Suministros
 Todo se cuenta en pares, salvo lo indicado. Los metros de tela no se controlan.
@@ -64,20 +74,26 @@ Los materiales de procesos aún no mencionados se agregarán cuando el usuario l
 - Un material sin conteo queda **"pendiente de conteo"** y no genera alertas hasta tener una cifra.
 
 ## Movimientos
-- **Entrada:** llega material (compra o recepción). Se registra cantidad y fecha.
+- **Entrada (recepción):** llega material de un pedido. Se registra por línea (ver Recepciones).
 - **Salida:** se usa en producción. Se registra suministro, cantidad y orden o cliente.
 - **Conteo físico:** se cuenta lo que hay en almacén. La app calcula la diferencia y la registra como ajuste.
+
+## Pedido al proveedor (imagen)
+- La app genera una imagen con: número de pedido consecutivo, fecha del día, proveedor, fecha prevista de entrega, lista (material, variante, cantidad y unidad) y totales por unidad.
+- La imagen se guarda en la app (historial de pedidos) y se envía con el botón de compartir, por ejemplo a WhatsApp.
+- El usuario revisa y confirma antes de enviar.
+
+## Recepciones (registro de llegadas)
+- Cada pedido tiene líneas con la cantidad pedida.
+- Cada llegada se registra por línea, con fecha y cantidad recibida. Un pedido puede llegar en varias partes.
+- Estado de cada línea: pendiente, parcial o completa. La app muestra lo que falta.
+- Si pasa la fecha prevista y falta material, la app avisa.
+- Campos opcionales: número de remisión o factura, y precio por unidad, para comparar con lo cobrado ¿?
 
 ## Pedidos de clientes (pronóstico)
 - Se envía la foto del pedido o vale de cada cliente.
 - Se extraen referencia, color, tallas y pares.
 - Con la base por par se calcula el material necesario en los próximos días.
-
-## Envío de pedidos al proveedor
-- La app arma el pedido (texto, con materiales y cantidades).
-- **Fase 1 (gratis):** la app abre WhatsApp o correo con el pedido listo. Tú revisas y pulsas enviar.
-- **Fase 2 (con costo):** envío automático. Requiere servicio de mensajes con costo y trámite de cuenta comercial.
-- **Recomendación:** aprobación del usuario antes de cada envío.
 
 ## Órdenes de producción
 Registro de cada orden:
@@ -90,25 +106,31 @@ Registro de cada orden:
 - Pares producidos por día, semana y mes.
 - Entradas y salidas de material por periodo.
 - Gráfica de barras de producción.
-- Gráfica de movimientos (entradas contra salidas). ¿Diagrama de flujo de proceso o gráfica de movimientos? ¿?
+- Gráfica de movimientos (entradas contra salidas) ¿? (no es un diagrama de flujo de proceso; confirmar).
 - Exportar a Excel (.xlsx).
 
 ## Alertas
-- Notificación con sonido, aunque el teléfono esté en silencio. Android o Samsung pueden limitarlo; se verifica en pruebas.
+- **Aviso de pedido:** sábado (pedido para el lunes) y miércoles (pedido para el jueves), con la lista y las cantidades.
+- **Alarma de stock bajo:** cuando un material cae bajo el colchón.
+- **Alarma de retraso:** pedido sin llegada completa en la fecha prevista.
+- Notificaciones con sonido, aunque el teléfono esté en silencio. Android o Samsung pueden limitarlo; se verifica en pruebas.
 - La app no hace llamadas telefónicas; solo notificaciones.
 
 ## Privacidad
-- El repositorio de GitHub es público. Los datos de producción y proveedores deberían estar en un repositorio privado. ¿?
+- El repositorio de GitHub es público. Datos de contacto y volúmenes de producción no se guardan aquí. ¿Pasar el repositorio a privado?
 
 ## Fuera de alcance por ahora
 - Varios usuarios y sincronización entre dispositivos.
-- Lectura automática de fotos de pedidos. Por ahora las envías al chat y se cargan manualmente.
+- Lectura automática de fotos de pedidos. Por ahora se envían al chat y se cargan manualmente.
 - Control de metros de tela.
+- Envío automático de pedidos (requiere servicio de mensajes con costo).
 
 ## Decisiones pendientes
-1. ¿Hay entregas domingos o festivos?
-2. ¿La reserva de 3 días se cuenta desde hoy o desde la llegada del pedido?
-3. ¿Contacto del proveedor: WhatsApp o correo?
-4. ¿El repositorio se vuelve privado?
-5. Lista de materiales de los demás procesos.
-6. Definir cuáles materiales se cuentan primero (suelas, tacones, pegamentos).
+1. Colchón: ¿1 día (300 pares) o ninguno?
+2. ¿A qué hora llegan las entregas? Si llegan por la tarde, la producción de la mañana del día de llegada no tiene material de esa entrega.
+3. ¿El pedido del sábado debe llegar antes de mediodía?
+4. ¿Se trabaja sábado completo?
+5. ¿Repositorio privado?
+6. ¿Precio por unidad en los pedidos y recepciones?
+7. Materiales de los demás procesos.
+8. Fotos de pedidos de clientes.
